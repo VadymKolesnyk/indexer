@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Indexing.BL
 {
-    class FileManager
+    public class FileManager
     {
         private readonly IEnumerable<string> _files;
         private readonly IEnumerator<string> _filesEnumerator;
-        private readonly object _locker = new object();
+        private readonly object _locker = new();
         public FileManager(string root)
         {
             if (string.IsNullOrEmpty(root))
@@ -22,10 +20,9 @@ namespace Indexing.BL
             _filesEnumerator = _files.GetEnumerator();
         }
 
-        private IEnumerable<string> GetAllFiles(string root)
+        private static IEnumerable<string> GetAllFiles(string root)
         {
-            IEnumerable<string> files = Directory.EnumerateFiles(root);
-            return Directory.EnumerateDirectories(root).Aggregate(files, (files, dir) => files.Concat(GetAllFiles(dir)));
+            return Directory.EnumerateFiles(root, "*", SearchOption.AllDirectories);
         }
         public string GetNextOrNull()
         {
