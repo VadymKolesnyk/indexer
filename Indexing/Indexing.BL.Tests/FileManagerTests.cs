@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,7 +19,6 @@ namespace Indexing.BL.Tests
         public FileManagerTests()
         {
             Directory.CreateDirectory(_directoryPath);
-            File.Create(Path.Combine(_directoryPath, "file1.txt")).Close();
             _fileManager = new FileManager(_directoryPath);
         }
         public void Dispose()
@@ -41,6 +41,57 @@ namespace Indexing.BL.Tests
         {
             string path = Path.Combine(_directoryPath, "NotExistDirectory");           
             Assert.Throws<DirectoryNotFoundException>(() => new FileManager(path));
+        }
+        [Fact]
+        public void GetNextOrNull_WhenEmptyDirectory_ThenNull()
+        {
+            Assert.Null(_fileManager.GetNextOrNull());
+        }
+        [Fact]
+        public void GetNextOrNull_When5Files_ThenGet5Files()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                File.Create(Path.Combine(_directoryPath, $"file{i}.txt")).Close();
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                Assert.NotNull(_fileManager.GetNextOrNull());
+            }
+            Assert.Null(_fileManager.GetNextOrNull());
+        }
+        [Fact]
+        public void GetNextOrNull_When5FilesInSubdirecrories_ThenGet5Files()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                File.Create(Path.Combine(_directoryPath, $"file{i}.txt")).Close();
+            }
+            Directory.CreateDirectory(Path.Combine(_directoryPath, "sub1"));
+            File.Create(Path.Combine(_directoryPath, $@"sub1\file2.txt")).Close();
+            Directory.CreateDirectory(Path.Combine(_directoryPath, "sub2"));
+            File.Create(Path.Combine(_directoryPath, $@"sub2\file3.txt")).Close();
+            File.Create(Path.Combine(_directoryPath, $@"sub2\file4.txt")).Close();
+            for (int i = 0; i < 5; i++)
+            {
+                Assert.NotNull(_fileManager.GetNextOrNull());
+            }
+            Assert.Null(_fileManager.GetNextOrNull());
+        }
+        [Fact]
+        public void GetNextOrNull_When1000FilesWithRaceCondition_ThenGet1000Files()
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                File.Create(Path.Combine(_directoryPath, $"file{i}.txt")).Close();
+            }
+            ConcurrentBag<string> bag = new();
+            Parallel.For(0, 1000, i => bag.Add(_fileManager.GetNextOrNull()));
+            Assert.Null(_fileManager.GetNextOrNull());
+            for (int i = 0; i < 1000; i++)
+            {
+                Assert.Contains(Path.Combine(_directoryPath, $"file{i}.txt"), bag);
+            }
         }
     }
 }
