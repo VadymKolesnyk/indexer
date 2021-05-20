@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -34,7 +33,7 @@ namespace Indexing.BL.Tests
         {
             Index index = new();
             index.Add("word2", "file1");
-            Assert.Empty(index["word1","word2"]);
+            Assert.Empty(index["word1", "word2"]);
         }
         [Fact]
         public void Indexer_When1SameFileFor2Words_ThenSingle()
@@ -45,7 +44,7 @@ namespace Indexing.BL.Tests
             index.Add("word2", "file1");
             index.Add("word2", "file2");
             Assert.Single(index["word1", "word2"]);
-            Assert.Equal("file1",index["word1", "word2"].First());
+            Assert.Equal("file1", index["word1", "word2"].First());
         }
         [Fact]
         public void Indexer_WhenEmptyArgument_ThenEmpty()
