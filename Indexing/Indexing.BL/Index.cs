@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace Indexing
 {
     public class Index
     {
-        private readonly ConcurrentDictionary<string, IList<string>> _dictionary = new();
+        private readonly ConcurrentDictionary<string, IImmutableSet<string>> _dictionary = new();
 
         public IEnumerable<string> this[params string[] words]
         {
@@ -17,27 +18,23 @@ namespace Indexing
                 {
                     return Enumerable.Empty<string>();
                 }
-                return words
+                var listsOfFiles = words
                   .Where(word => word is not null && _dictionary.ContainsKey(word))
-                  .Select(word => _dictionary[word])
-                  .Aggregate(Enumerable.Empty<string>(), (filesIntersect, files) => filesIntersect.Intersect(files));
+                  .Select(word => _dictionary[word]);
+                if (!listsOfFiles.Any())
+                {
+                    return Enumerable.Empty<string>();
+                }
+                return listsOfFiles
+                  .Aggregate<IEnumerable<string>>((filesIntersect, files) => filesIntersect.Intersect(files));
             }
         }
         public void Add(string word, string file)
         {
             _dictionary.AddOrUpdate(
                 word,
-                word =>
-                {
-                    List<string> list = new();
-                    list.Add(file);
-                    return list;
-                },
-                (word, files) =>
-                {
-                    files.Add(file);
-                    return files;
-                });
+                word => ImmutableHashSet.Create(file),
+                (word, files) => files.Add(file));
         }
     }
 }
