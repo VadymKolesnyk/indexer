@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Indexing.TimeAnalytics", "Indexing.TimeAnalytics\Indexing.TimeAnalytics.csproj", "{A07841AB-F219-445D-89F5-4D2BAB19ED79}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Indexing.Application.Server", "Indexing.Application.Server\Indexing.Application.Server.csproj", "{3D72AA1B-F95F-499B-AFFB-6B2EFC43361F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{17FB91B9-E026-42A6-99D5-FDA42054D0A9} = {17FB91B9-E026-42A6-99D5-FDA42054D0A9}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Indexing.BL.Tests", "Indexing.BL.Tests\Indexing.BL.Tests.csproj", "{3E9AC4FE-D4EE-40B6-B1C8-B1EFBC0E6E94}"
 EndProject
