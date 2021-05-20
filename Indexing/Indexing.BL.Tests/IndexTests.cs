@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Indexing.BL.Tests
@@ -20,6 +22,36 @@ namespace Indexing.BL.Tests
             index.Add("word1", "file1");
             index.Add("word1", "file1");
             Assert.Single(index["word1"]);
+        }
+        [Fact]
+        public void Indexer_WhenNoFilesFor1Word_ThenEmpty()
+        {
+            Index index = new();
+            Assert.Empty(index["word1"]);
+        }
+        [Fact]
+        public void Indexer_WhenNoFilesFor2Words_ThenEmpty()
+        {
+            Index index = new();
+            index.Add("word2", "file1");
+            Assert.Empty(index["word1","word2"]);
+        }
+        [Fact]
+        public void Indexer_When1SameFileFor2Words_ThenSingle()
+        {
+            Index index = new();
+            index.Add("word1", "file1");
+            index.Add("word1", "file3");
+            index.Add("word2", "file1");
+            index.Add("word2", "file2");
+            Assert.Single(index["word1", "word2"]);
+            Assert.Equal("file1",index["word1", "word2"].First());
+        }
+        [Fact]
+        public void Indexer_WhenEmptyArgument_ThenEmpty()
+        {
+            Index index = new();
+            Assert.Empty(index[Array.Empty<string>()]);
         }
 
     }
