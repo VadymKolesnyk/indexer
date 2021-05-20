@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -39,7 +36,7 @@ namespace Indexing.BL.Tests
         [Fact]
         public void FileManager_WhenDirectoryNotExists_ThenThrowDirectoryNotFoundException()
         {
-            string path = Path.Combine(_directoryPath, "NotExistDirectory");           
+            string path = Path.Combine(_directoryPath, "NotExistDirectory");
             Assert.Throws<DirectoryNotFoundException>(() => new FileManager(path));
         }
         [Fact]
