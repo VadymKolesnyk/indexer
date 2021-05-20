@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,6 +11,14 @@ namespace Indexing.BL
         private readonly FileManager _manager;
         public Indexer(string rootDirectory, int numberOfThreads)
         {
+            if (string.IsNullOrEmpty(rootDirectory))
+            {
+                throw new ArgumentException($"\"{nameof(rootDirectory)}\" can't be null or empty.", nameof(rootDirectory));
+            }
+            if (numberOfThreads < 1)
+            {
+                throw new ArgumentException($"\"{nameof(numberOfThreads)}\" can't be less then 1");
+            }
             NumberOfThreads = numberOfThreads;
             _manager = new FileManager(rootDirectory);
         }
