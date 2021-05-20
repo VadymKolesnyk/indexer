@@ -14,23 +14,27 @@ namespace Indexing
         {
             get
             {
-                if (words is null || words.Length == 0)
+                if (words is null || !words.Any() || words.Any(word => !_dictionary.ContainsKey(word)))
                 {
                     return Enumerable.Empty<string>();
                 }
-                var listsOfFiles = words
-                  .Where(word => word is not null && _dictionary.ContainsKey(word))
-                  .Select(word => _dictionary[word]);
-                if (!listsOfFiles.Any())
-                {
-                    return Enumerable.Empty<string>();
-                }
-                return listsOfFiles
+                return words
+                  .Select(word => _dictionary[word])
                   .Aggregate<IEnumerable<string>>((filesIntersect, files) => filesIntersect.Intersect(files));
             }
         }
         public void Add(string word, string file)
         {
+            if (string.IsNullOrEmpty(word))
+            {
+                throw new ArgumentException($"\"{nameof(word)}\" can't be null or empty.", nameof(word));
+            }
+
+            if (string.IsNullOrEmpty(file))
+            {
+                throw new ArgumentException($"\"{nameof(file)}\" can't be null or empty.", nameof(file));
+            }
+
             _dictionary.AddOrUpdate(
                 word,
                 word => ImmutableHashSet.Create(file),
