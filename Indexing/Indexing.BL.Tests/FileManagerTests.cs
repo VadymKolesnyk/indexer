@@ -11,7 +11,7 @@ namespace Indexing.BL.Tests
     {
         static int _testsCount = 1;
 
-        private readonly string _directoryPath = $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\TestDirectory_{_testsCount++}";
+        private readonly string _directoryPath = $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\FileManager_TestDirectory_{_testsCount++}";
         private readonly FileManager _fileManager;
         public FileManagerTests()
         {
@@ -49,7 +49,8 @@ namespace Indexing.BL.Tests
         {
             for (int i = 0; i < 5; i++)
             {
-                File.Create(Path.Combine(_directoryPath, $"file{i}.txt")).Close();
+                using var file = File.Create(Path.Combine(_directoryPath, $"file{i}.txt"));
+                file.Close();
             }
             for (int i = 0; i < 5; i++)
             {
@@ -62,13 +63,17 @@ namespace Indexing.BL.Tests
         {
             for (int i = 0; i < 2; i++)
             {
-                File.Create(Path.Combine(_directoryPath, $"file{i}.txt")).Close();
+                using var file = File.Create(Path.Combine(_directoryPath, $"file{i}.txt"));
+                file.Close();
             }
             Directory.CreateDirectory(Path.Combine(_directoryPath, "sub1"));
-            File.Create(Path.Combine(_directoryPath, $@"sub1\file2.txt")).Close();
+            using var file2 = File.Create(Path.Combine(_directoryPath, $@"sub1\file2.txt"));
+            file2.Close();
             Directory.CreateDirectory(Path.Combine(_directoryPath, "sub2"));
-            File.Create(Path.Combine(_directoryPath, $@"sub2\file3.txt")).Close();
-            File.Create(Path.Combine(_directoryPath, $@"sub2\file4.txt")).Close();
+            using var file3 = File.Create(Path.Combine(_directoryPath, $@"sub2\file3.txt"));
+            file3.Close();
+            using var file4 = File.Create(Path.Combine(_directoryPath, $@"sub2\file4.txt"));
+            file4.Close();
             for (int i = 0; i < 5; i++)
             {
                 Assert.NotNull(_fileManager.GetNextOrNull());
