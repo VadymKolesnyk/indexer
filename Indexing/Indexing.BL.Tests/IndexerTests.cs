@@ -10,7 +10,7 @@ namespace Indexing.BL.Tests
     public class IndexerTests : IDisposable
     {
         static int _testsCount = 1;
-        private readonly string _directoryPath = $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\TestDirectory_{_testsCount++}";
+        private readonly string _directoryPath = $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\Indexer_TestDirectory_{_testsCount++}";
         public IndexerTests()
         {
             Directory.CreateDirectory(_directoryPath);
