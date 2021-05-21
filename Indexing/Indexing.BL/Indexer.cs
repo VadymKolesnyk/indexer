@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Indexing.BL
@@ -40,12 +42,18 @@ namespace Indexing.BL
             while ((file = _manager.GetNextOrNull()) is not null)
             {
                 string text = File.ReadAllText(file);
-                string[] words = text.Split(' ');
+                var words = HandleText(text);
                 foreach (string word in words)
                 {
                     index.Add(word, file);
                 }
             }
+        }
+
+        private IEnumerable<string> HandleText(string text)
+        {
+            text = text.Replace("<br />", string.Empty);
+            return Regex.Split(text, @"[^(0-9|a-z|A-Z|')]+").Select(w => w.ToLower());
         }
     }
 }
