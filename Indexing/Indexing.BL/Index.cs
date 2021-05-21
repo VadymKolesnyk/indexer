@@ -14,12 +14,12 @@ namespace Indexing
         {
             get
             {
-                if (words is null || !words.Any() || words.Any(word => !_dictionary.ContainsKey(word)))
+                if (words is null || !words.Any() || words.Any(word => !_dictionary.ContainsKey(word.ToLower())))
                 {
                     return Enumerable.Empty<string>();
                 }
                 return words
-                  .Select(word => _dictionary[word])
+                  .Select(word => _dictionary[word.ToLower()])
                   .Aggregate<IEnumerable<string>>((filesIntersect, files) => filesIntersect.Intersect(files));
             }
         }
