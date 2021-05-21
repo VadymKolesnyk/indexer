@@ -27,7 +27,9 @@ namespace Indexing.BL
         {
             Index index = new();
 
-            var tasks = Enumerable.Repeat(Task.Run(() => ProcessIndex(index)), NumberOfThreads);
+            var tasks = Enumerable.Repeat(0, NumberOfThreads)
+                                  .Select(_ => Task.Run(() => ProcessIndex(index)))
+                                  .ToArray();
 
             return await Task.WhenAll(tasks).ContinueWith(_ => index);
         }
