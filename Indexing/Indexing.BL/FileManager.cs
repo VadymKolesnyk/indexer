@@ -33,7 +33,6 @@ namespace Indexing.BL
                 }
                 return null;
             }
-
         }
     }
 }

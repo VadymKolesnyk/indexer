@@ -11,6 +11,7 @@ namespace Indexing.BL
     {
         public int NumberOfThreads { get; }
         private readonly FileManager _manager;
+
         public Indexer(string rootDirectory, int numberOfThreads)
         {
             if (string.IsNullOrEmpty(rootDirectory))
