@@ -52,6 +52,5 @@ namespace Indexing.BL.Tests
             Index index = new();
             Assert.Empty(index[Array.Empty<string>()]);
         }
-
     }
 }

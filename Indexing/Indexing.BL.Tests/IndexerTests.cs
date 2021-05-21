@@ -42,7 +42,7 @@ namespace Indexing.BL.Tests
             Assert.Equal(filePath, index["three", "one"].First());
             Assert.Equal(filePath, index["three", "one", "two"].First());
         }
-        
+
         [Fact]
         public async Task GetIndexAsync_WhenFileContainsCpecialSymbols_ThenIgnoreSpecialSymbols()
         {
