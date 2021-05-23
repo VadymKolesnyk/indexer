@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Indexing.TimeAnalytics
+namespace Indexing.Application
 {
-    class Logger
+    public class Logger
     {
-        Action<string?> _log;
+        readonly Action<string> _log;
 
         public Logger()
         {
@@ -24,12 +21,10 @@ namespace Indexing.TimeAnalytics
             var lines = message.Split('\n');
             string time = $"[{DateTime.Now.ToShortDateString(),10} {DateTime.Now.ToShortTimeString(),10}] : ";
             string space = new(' ', time.Length);
-            _log(time);
-            _log(lines.First());
+            _log(time + lines.First());
             foreach (var line in lines.Skip(1))
             {
-                _log(space);
-                _log(line);
+                _log(space + line);
             }
         }
     }

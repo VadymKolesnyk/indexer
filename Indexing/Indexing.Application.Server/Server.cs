@@ -1,18 +1,16 @@
 ﻿using Indexing.BL;
-using System.Linq;
-using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace Indexing.TimeAnalytics
+namespace Indexing.Application.Server
 {
     class Server
     {
         readonly TcpListener _server;
         readonly IPAddress _ip = new IPAddress(new byte[] { 127, 0, 0, 1 });
         readonly int _port = 5001;
-        Logger _logger = new();
+        readonly Logger _logger = new();
         Index _index;
         public Server()
         {
@@ -22,14 +20,16 @@ namespace Indexing.TimeAnalytics
         public async Task<Server> SetUpAsync(string directory, int numberOfThreads)
         {
             var indexer = new Indexer(directory, numberOfThreads);
+            _logger.Log("Start indexing");
             _index = await indexer.GetIndexAsync();
+            _logger.Log("Finish indexing");
             return this;
         }
 
         public async Task StartAsync()
         {
             _server.Start();
-            _logger.Log("server started");
+            _logger.Log($"Server started at port {_port}");
 
             while (true)
             {

@@ -6,7 +6,10 @@ namespace Indexing.Application.Server
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine(@"Enter directory with files (if empty - D:\datasets\aclImdb)");
+            var input = Console.ReadLine();
+            var path = input == string.Empty ? @"D:\datasets\aclImdb" : input;
+
         }
     }
 }
