@@ -1,4 +1,5 @@
-﻿using System.Net.Sockets;
+﻿using Newtonsoft.Json;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace Indexing.Application.Server
@@ -22,7 +23,21 @@ namespace Indexing.Application.Server
             try
             {
                 stream = _client.GetStream();
-
+                while (true)
+                {
+                    dynamic request = Messager.Recive(stream);
+                    _logger.Log($"Was recived mesage : {request}");
+                    if (request["stop"] == true)
+                    {
+                        _logger.Log("Client disconected");
+                        return;
+                    }
+                    var words = JsonConvert.DeserializeObject<string[]>(request["words"].ToString());
+                    var files = _index[words];
+                    var answer = new { files };
+                    Messager.Send(stream, answer);
+                    _logger.Log($"Was sended answer : {answer}");
+                }
 
 
             }

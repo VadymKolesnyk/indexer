@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Indexing.Application.Server
 {
-    class Server
+    public class Server
     {
         readonly TcpListener _server;
-        readonly IPAddress _ip = new IPAddress(new byte[] { 127, 0, 0, 1 });
+        readonly IPAddress _ip = new(new byte[] { 127, 0, 0, 1 });
         readonly int _port = 5001;
         readonly Logger _logger = new();
         Index _index;
