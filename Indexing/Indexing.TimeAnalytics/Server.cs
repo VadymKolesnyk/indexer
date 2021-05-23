@@ -26,12 +26,20 @@ namespace Indexing.TimeAnalytics
             return this;
         }
 
-        public async Task<Server> StartAsync()
+        public async Task StartAsync()
         {
             _server.Start();
             _logger.Log("server started");
 
-            return this;
+            while (true)
+            {
+                var client = await _server.AcceptTcpClientAsync();
+                _logger.Log("New client was connected");
+
+                var handler = new ClientHandler(_index, _logger, client);
+                _ = handler.HandleAsync();
+            }
+
         }
 
     }
