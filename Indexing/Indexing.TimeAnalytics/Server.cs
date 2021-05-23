@@ -12,6 +12,7 @@ namespace Indexing.TimeAnalytics
         readonly TcpListener _server;
         readonly IPAddress _ip = new IPAddress(new byte[] { 127, 0, 0, 1 });
         readonly int _port = 5001;
+        Logger _logger = new();
         Index _index;
         public Server()
         {
@@ -28,25 +29,10 @@ namespace Indexing.TimeAnalytics
         public async Task<Server> StartAsync()
         {
             _server.Start();
-            Log("server started");
+            _logger.Log("server started");
 
             return this;
         }
 
-
-
-        private static void Log(string message)
-        {
-            var lines = message.Split('\n');
-            string time = $"[{DateTime.Now.ToShortDateString(),10} {DateTime.Now.ToShortTimeString(),10}] : ";
-            string space = new(' ', time.Length);
-            Console.Write(time);
-            Console.WriteLine(lines.First());
-            foreach (var line in lines.Skip(1))
-            {
-                Console.Write(space);
-                Console.WriteLine(line);
-            }
-        }
     }
 }
