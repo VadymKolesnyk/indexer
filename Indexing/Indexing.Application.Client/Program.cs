@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Net.Sockets;
+using static System.Net.Mime.MediaTypeNames;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace Indexing.Application.Client
 {
@@ -14,12 +17,19 @@ namespace Indexing.Application.Client
             {
                 client = new TcpClient("127.0.0.1", 5001);
                 stream = client.GetStream();
-                string[] input = new string[] { "to", "see", "how", "this", "kind" };
-                Messager.Send(stream, new { words = input });
-                var answer = Messager.Recive(stream);
-                Console.WriteLine(answer);
+
+                do
+                {
+                    string[] input = GetWords();
+                    Messager.Send(stream, new { words = input });
+                    var answer = Messager.Recive(stream);
+                    Console.WriteLine(answer);
+                    
+                } while (WantToContinue());
+
+
             }
-            catch(SocketException e)
+            catch(Exception e)
             {
                 logger.Log(e.Message);
             }
@@ -29,6 +39,18 @@ namespace Indexing.Application.Client
                 stream?.Close();
             }
             
+        }
+
+        static string[] GetWords()
+        {
+            Console.WriteLine("Please enter the words you want to find");
+            return Regex.Split(Console.ReadLine(), @"[^(0-9|a-z|A-Z|')]+").Where(w => w != string.Empty).Select(w => w.ToLower()).ToArray();
+        }
+        static bool WantToContinue()
+        {
+            Console.WriteLine("If you want to finish, write to the console \'y\' or \'yes\'. If not press enter");
+            var input = Console.ReadLine().Trim().ToLower();
+            return input != "y" && input != "yes";
         }
     }
 }
