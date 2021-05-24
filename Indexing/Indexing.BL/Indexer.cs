@@ -26,7 +26,7 @@ namespace Indexing.BL
             _manager = new FileManager(rootDirectory);
         }
 
-        public async Task<Index> GetIndexAsync()
+        public Task<Index> GetIndexAsync()
         {
             Index index = new();
 
@@ -34,13 +34,13 @@ namespace Indexing.BL
                                   .Select(_ => Task.Run(() => ProcessIndex(index)))
                                   .ToArray();
 
-            return await Task.WhenAll(tasks).ContinueWith(_ => index);
+            return Task.WhenAll(tasks).ContinueWith(_ => index);
         }
 
         private void ProcessIndex(Index index)
         {
-            string file;
-            while ((file = _manager.GetNextOrNull()) is not null)
+            string file = _manager.GetNextOrNull();
+            while (file is not null)
             {
                 string text = File.ReadAllText(file);
                 var words = HandleText(text);
@@ -48,13 +48,14 @@ namespace Indexing.BL
                 {
                     index.Add(word, file);
                 }
+                file = _manager.GetNextOrNull();
             }
         }
 
         private IEnumerable<string> HandleText(string text)
         {
             text = text.Replace("<br />", string.Empty);
-            return Regex.Split(text, @"[^(0-9|a-z|A-Z|')]+").Select(w => w.ToLower());
+            return Regex.Split(text, @"[^(0-9|a-z|A-Z|')]+").Where(w => w != string.Empty).Select(w => w.ToLower());
         }
     }
 }

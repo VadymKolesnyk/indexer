@@ -3,18 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Indexing.BL", "Indexing.BL\Indexing.BL.csproj", "{17FB91B9-E026-42A6-99D5-FDA42054D0A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indexing.BL", "Indexing.BL\Indexing.BL.csproj", "{17FB91B9-E026-42A6-99D5-FDA42054D0A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Indexing.TimeAnalytics", "Indexing.TimeAnalytics\Indexing.TimeAnalytics.csproj", "{A07841AB-F219-445D-89F5-4D2BAB19ED79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indexing.TimeAnalytics", "Indexing.TimeAnalytics\Indexing.TimeAnalytics.csproj", "{A07841AB-F219-445D-89F5-4D2BAB19ED79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Indexing.Application.Server", "Indexing.Application.Server\Indexing.Application.Server.csproj", "{3D72AA1B-F95F-499B-AFFB-6B2EFC43361F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indexing.Application.Server", "Indexing.Application.Server\Indexing.Application.Server.csproj", "{3D72AA1B-F95F-499B-AFFB-6B2EFC43361F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{17FB91B9-E026-42A6-99D5-FDA42054D0A9} = {17FB91B9-E026-42A6-99D5-FDA42054D0A9}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Indexing.BL.Tests", "Indexing.BL.Tests\Indexing.BL.Tests.csproj", "{3E9AC4FE-D4EE-40B6-B1C8-B1EFBC0E6E94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indexing.BL.Tests", "Indexing.BL.Tests\Indexing.BL.Tests.csproj", "{3E9AC4FE-D4EE-40B6-B1C8-B1EFBC0E6E94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Indexing.Application.Client", "Indexing.Application.Client\Indexing.Application.Client.csproj", "{0FD53B07-671C-44D4-8DC8-9A5D7054ABDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indexing.Application.Client", "Indexing.Application.Client\Indexing.Application.Client.csproj", "{0FD53B07-671C-44D4-8DC8-9A5D7054ABDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Indexing.Application", "Indexing.Application\Indexing.Application.csproj", "{3C703DDA-220E-4FC3-BD3E-D536CAA4928E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,10 @@ Global
 		{0FD53B07-671C-44D4-8DC8-9A5D7054ABDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FD53B07-671C-44D4-8DC8-9A5D7054ABDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FD53B07-671C-44D4-8DC8-9A5D7054ABDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C703DDA-220E-4FC3-BD3E-D536CAA4928E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C703DDA-220E-4FC3-BD3E-D536CAA4928E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C703DDA-220E-4FC3-BD3E-D536CAA4928E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C703DDA-220E-4FC3-BD3E-D536CAA4928E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

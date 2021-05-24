@@ -10,6 +10,7 @@ namespace Indexing
     {
         private readonly ConcurrentDictionary<string, IImmutableSet<string>> _dictionary = new();
 
+        public ConcurrentDictionary<string, IImmutableSet<string>> GetDictionaryUnsave() => _dictionary;
         public IEnumerable<string> this[params string[] words]
         {
             get
