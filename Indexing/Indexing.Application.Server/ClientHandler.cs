@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
@@ -29,22 +30,28 @@ namespace Indexing.Application.Server
                     _logger.Log($"Was recived mesage : {request}");
                     if (request["stop"] == true)
                     {
-                        _logger.Log("Client disconected");
                         return;
                     }
                     var words = JsonConvert.DeserializeObject<string[]>(request["words"].ToString());
                     var files = _index[words];
                     var answer = new { files };
                     Messager.Send(stream, answer);
-                    _logger.Log($"Was sended answer : {answer}");
+                    _logger.Log($"Was sended answer : {JsonConvert.DeserializeObject(JsonConvert.SerializeObject(answer))}");
                 }
 
 
+            }
+            catch (JsonException e)
+            {
+                var answer = new { error = "Invalid body" };
+                Messager.Send(stream, answer);
+                _logger.Log(e.Message);
             }
             finally
             {
                 stream?.Close();
                 _client?.Close();
+                _logger.Log("Client disconected");
             }
         }
 
