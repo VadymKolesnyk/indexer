@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
@@ -35,8 +34,8 @@ namespace Indexing.Application.Server
                     var words = JsonConvert.DeserializeObject<string[]>(request["words"].ToString());
                     var files = _index[words];
                     var answer = new { files };
-                    Messager.Send(stream, answer);
-                    _logger.Log($"Was sended answer : {JsonConvert.DeserializeObject(JsonConvert.SerializeObject(answer))}");
+                    var jsonAnswer = Messager.Send(stream, answer);
+                    _logger.Log($"Was sended answer : {jsonAnswer}");
                 }
 
 

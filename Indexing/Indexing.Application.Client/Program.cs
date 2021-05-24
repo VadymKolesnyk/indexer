@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Net.Sockets;
-using static System.Net.Mime.MediaTypeNames;
-using System.Text.RegularExpressions;
 using System.Linq;
+using System.Net.Sockets;
+using System.Text.RegularExpressions;
 
 namespace Indexing.Application.Client
 {
@@ -24,12 +23,11 @@ namespace Indexing.Application.Client
                     Messager.Send(stream, new { words = input });
                     var answer = Messager.Recive(stream);
                     Console.WriteLine(answer);
-                    
+
                 } while (WantToContinue());
-
-
+                Messager.Send(stream, new { stop = true });
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 logger.Log(e.Message);
             }
@@ -38,7 +36,7 @@ namespace Indexing.Application.Client
                 client?.Close();
                 stream?.Close();
             }
-            
+
         }
 
         static string[] GetWords()
