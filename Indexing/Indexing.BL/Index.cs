@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace Indexing
+namespace Indexing.BL
 {
     public class Index
     {
