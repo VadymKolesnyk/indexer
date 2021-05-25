@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
@@ -19,7 +20,7 @@ namespace Indexing.Application.Client
 
                 do
                 {
-                    string[] input = GetWords();
+                    var input = GetWords();
                     Messager.Send(stream, new { words = input });
                     var answer = Messager.Recive(stream);
                     Console.WriteLine(answer);
@@ -39,10 +40,10 @@ namespace Indexing.Application.Client
 
         }
 
-        static string[] GetWords()
+        static IEnumerable<string> GetWords()
         {
             Console.WriteLine("Please enter the words you want to find");
-            return Regex.Split(Console.ReadLine(), @"[^(0-9|a-z|A-Z|')]+").Where(w => w != string.Empty).Select(w => w.ToLower()).ToArray();
+            return Regex.Split(Console.ReadLine(), @"[^(0-9|a-z|A-Z|')]+").Where(w => w != string.Empty).Select(w => w.ToLower());
         }
         static bool WantToContinue()
         {

@@ -37,7 +37,7 @@ namespace Indexing.TimeAnalytics
         }
 
 
-        static bool CompareIndexs(Index index1, Index index2)
+        static bool CompareIndexs(BL.Index index1, BL.Index index2) 
         {
             var dict1 = index1.GetDictionaryUnsave();
             var dict2 = index2.GetDictionaryUnsave();
